@@ -83,7 +83,7 @@
         
         .challenger-box { color: var(--main-color); font-weight: bold; }
         
-        /* إطار السؤال البارز والتصميم الجمالي */
+        /* شارة نوع السؤال والإطار البارز */
         .q-type-badge { 
             background: var(--main-color); 
             color: white; 
@@ -254,6 +254,7 @@
     document.documentElement.style.setProperty('--bg-color', theme.bg);
     document.documentElement.style.setProperty('--passage-bg', theme.pbg);
 
+    // مصفوفة الأسئلة الكاملة الخاصة بك
     const rawQuizData = [
         { t: "استخرج", q: "في جملة (العلمُ نورٌ)، عيّن المبتدأ والخبر:", opts: ["المبتدأ: العلم - الخبر: نور", "المبتدأ: نور - الخبر: العلم", "لا يوجد مبتدأ وخبر", "المبتدأ محذوف"], ans: "المبتدأ: العلم - الخبر: نور" },
         { t: "استخرج", q: "في جملة (المسلمون متماسكُونَ)، حدد الخبر:", opts: ["المسلمون", "متماسكُونَ", "جملة فعلية", "شبه جملة"], ans: "متماسكُونَ" },
@@ -365,4 +366,4 @@
                     document.getElementById('dynamic-face').innerText = "🥺❌"; // فيس حزين عند الخطأ
                 }
                 
-                studentAnswersLog.pu
+ 
