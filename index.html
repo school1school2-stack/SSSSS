@@ -3,34 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاكي الاختبارات التفاعلي - أ / عبدالعزيز الفيفي 🎓</title>
+    <title>محاكي الاختبارات - ثانوية الأمير عبدالمجيد مع فيس تعبيري 😄</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <style>
         :root { 
-            --main-color: #e53e3e; 
-            --bg-color: #f8fafc; 
+            --main-color: #2c3e50; 
+            --bg-color: #f4f7f6; 
             --white: #ffffff; 
-            --correct: #48bb78; 
-            --wrong: #f56565;
+            --correct: #27ae60; 
+            --wrong: #e74c3c;
+            --passage-bg: rgba(0,0,0,0.03);
         }
 
-        /* حركات إبداعية ونبض */
+        /* حركات إبداعية ونبض جمالي للفيس */
         @keyframes floatFace {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-8px) rotate(3deg); }
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-            50% { box-shadow: 0 8px 30px rgba(229, 62, 62, 0.2); }
-            100% { box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+            0% { box-shadow: 0 5px 25px rgba(0,0,0,0.08); }
+            50% { box-shadow: 0 10px 30px rgba(44, 62, 80, 0.15); }
+            100% { box-shadow: 0 5px 25px rgba(0,0,0,0.08); }
         }
 
         body { 
             font-family: 'Segoe UI', Tahoma, sans-serif; 
             background-color: var(--bg-color); 
-            background-image: linear-gradient(135deg, #fff5f5 0%, #f8fafc 100%);
+            background-image: linear-gradient(135deg, #f0f4f8 0%, #f4f7f6 100%);
             display: flex; 
             justify-content: center; 
             align-items: center;
@@ -38,58 +39,65 @@
             padding: 20px; 
             margin: 0; 
             user-select: none; 
+            transition: background 0.5s; 
         }
 
         .quiz-card { 
             background: var(--white); 
             width: 100%; 
-            max-width: 750px; 
-            border-radius: 24px; 
+            max-width: 900px; 
+            border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
-            border: 2px solid #e2e8f0;
-            padding: 30px; 
+            border-top: 12px solid var(--main-color); 
+            padding: 35px; 
             position: relative; 
             animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        .header { 
+            text-align: center; 
+            border-bottom: 2px dashed #e2e8f0; 
+            margin-bottom: 25px; 
+            padding-bottom: 15px; 
         }
 
         /* الفيس المتحرك التفاعلي أعلى السؤال */
         .floating-emoji {
             font-size: 3.5rem;
             text-align: center;
-            margin-bottom: -10px;
+            margin-bottom: 5px;
             animation: floatFace 2.5s infinite ease-in-out;
             display: block;
         }
 
-        .badge-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
+        .nav-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(0,0,0,0.02); 
+            padding: 15px 25px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            border: 1px solid #eee; 
         }
+        
+        .challenger-box { color: var(--main-color); font-weight: bold; }
+        
+        /* إطار السؤال البارز والتصميم الجمالي */
         .q-type-badge { 
-            background-color: var(--main-color); 
+            background: var(--main-color); 
             color: white; 
-            padding: 6px 18px; 
+            padding: 6px 20px; 
             border-radius: 20px; 
-            font-size: 0.95rem; 
+            font-size: 1rem; 
             font-weight: bold; 
-            box-shadow: 0 3px 10px rgba(229, 62, 62, 0.3);
+            display: inline-block;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
-        .main-title {
-            text-align: center;
-            color: #2d3748;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 12px;
-            font-weight: 800;
-        }
-
-        /* إطار السؤال البارز */
         .question-frame {
             border: 2px solid #cbd5e0;
-            border-radius: 16px;
+            border-radius: 15px;
             padding: 25px;
             background: #ffffff;
             position: relative;
@@ -100,13 +108,13 @@
         .question-header-tag {
             position: absolute;
             top: -14px;
-            right: 20px;
+            right: 25px;
             background: #ffffff;
-            padding: 0 10px;
+            padding: 0 12px;
             color: var(--main-color);
             font-weight: bold;
             font-size: 0.95rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #cbd5e0;
             border-radius: 6px;
         }
 
@@ -114,149 +122,88 @@
             font-size: 1.6rem; 
             font-weight: bold; 
             text-align: center; 
-            line-height: 1.6; 
-            color: #1a202c; 
+            line-height: 1.8; 
+            color: #2c3e50; 
             padding: 10px; 
-            margin-top: 10px;
-        }
-        
-        .options-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin-top: 20px; 
-        }
-
-        .opt { 
-            padding: 16px 20px; 
-            border: 2px solid #cbd5e0; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            text-align: center; 
-            font-size: 1.15rem; 
-            background: #ffffff; 
-            transition: all 0.2s ease; 
-            color: #2d3748; 
-            font-weight: 600; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-
-        .opt:hover { 
-            border-color: #3182ce; 
-            background: #ebf8ff; 
-            transform: translateY(-2px);
-        }
-
-        .correct { 
-            background: var(--correct) !important; 
-            color: white !important; 
-            border-color: #38a169 !important; 
-            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3) !important;
-        }
-
-        .wrong { 
-            background: var(--wrong) !important; 
-            color: white !important; 
-            border-color: #e53e3e !important; 
-        }
-
-        .nav-bar { 
+            min-height: 50px; 
             display: flex; 
-            justify-content: space-between; 
             align-items: center; 
-            background: #f7fafc; 
-            padding: 12px 20px; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            border: 1px solid #e2e8f0; 
-            font-size: 0.95rem;
+            justify-content: center; 
+            flex-direction: column; 
         }
-
-        .btn { 
-            background: var(--main-color); 
-            color: white; 
-            padding: 12px 40px; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-size: 1.1rem; 
-            font-weight: bold; 
-            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
-            transition: 0.2s;
-        }
-        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-        .hidden { display: none !important; }
         
-        input { 
-            width: 80%; 
-            padding: 14px; 
-            border-radius: 12px; 
-            border: 2px solid #cbd5e1; 
-            margin-bottom: 15px; 
-            text-align: center; 
-            font-size: 1.1rem; 
-            outline: none;
-        }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 25px; }
+        .opt { padding: 20px; border: 2px solid #ecf0f1; border-radius: 12px; cursor: pointer; text-align: center; font-size: 1.2rem; background: #fff; transition: 0.2s; color: #34495e; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .opt:hover { border-color: var(--main-color); background: #f9fbfb; transform: translateY(-2px); }
+        .correct { background: var(--correct) !important; color: white !important; border-color: var(--correct) !important; box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3) !important; }
+        .wrong { background: var(--wrong) !important; color: white !important; border-color: var(--wrong) !important; }
+        
+        .btn { background: var(--main-color); color: white; padding: 15px 55px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        
+        .hidden { display: none !important; }
+        input { width: 80%; padding: 15px; border-radius: 10px; border: 2px solid #cbd5e1; margin-bottom: 15px; text-align: center; font-size: 1.1rem; outline: none; }
         input:focus { border-color: var(--main-color); }
 
-        .review-container { text-align: right; margin-top: 20px; max-height: 380px; overflow-y: auto; padding: 10px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fafafa; }
-        .review-item { padding: 12px 15px; margin-bottom: 10px; border-radius: 8px; border-right: 5px solid #ccc; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        /* تنسيقات صفحة المراجعة والتغذية الراجعة */
+        .review-container { text-align: right; margin-top: 25px; max-height: 450px; overflow-y: auto; padding: 10px; border: 1px solid #eee; border-radius: 12px; background: #fafafa; }
+        .review-item { padding: 15px; margin-bottom: 15px; border-radius: 8px; border-right: 6px solid #ccc; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
         .review-item.correct-ans { border-right-color: var(--correct); }
         .review-item.wrong-ans { border-right-color: var(--wrong); }
+        .review-q { font-weight: bold; font-size: 1.1rem; color: #2c3e50; margin-bottom: 8px; }
+        .review-details { font-size: 0.95rem; line-height: 1.6; }
 
         @media (max-width: 600px) {
             body { padding: 10px; }
-            .quiz-card { padding: 20px 15px; }
-            .options-grid { grid-template-columns: 1fr; gap: 10px; }
-            .btn { width: 100%; }
+            .quiz-card { padding: 20px 15px; border-top-width: 8px; }
+            .options-grid { grid-template-columns: 1fr; gap: 12px; }
+            .btn { width: 100%; padding: 12px; }
+            input { width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
 <body>
 
 <div class="quiz-card">
-    <div style="text-align: center; margin-bottom: 15px; color: #718096; font-size: 0.9rem;">
-        ثانوية الأمير عبدالمجيد ثانوية الأمير عبدالمجيد مع فيس تعبيري 😄 | أ / عبدالعزيز الفيفي ✨
-    </div>
-
-    <!-- شاشة تسجيل الدخول -->
-    <div id="start-page" style="text-align: center; padding: 20px 0;">
-        <span class="floating-emoji">🚀</span>
-        <h2 style="color: #2d3748; margin-bottom: 10px;">منصة الاختبارات التفاعلية</h2>
-        <p style="color: #4a5568; font-weight: bold; margin-bottom: 20px;">أدخل إيميل منصة مدرستي لبدء التحدي 🔥</p>
-        <input type="email" id="studentEmail" placeholder="sxxxxxxx@rb.moe.gov.sa">
-        <br>
-        <button class="btn" onclick="verifyAndStart()">دخول المنصة 🎯</button>
-        <p id="status-msg" style="margin-top: 15px; font-weight: bold;"></p>
+    <div class="header">
+        <h3>ثانوية الأمير عبدالمجيد 🎓 ثانوية الأمير عبدالمجيد مع فيس تعبيري 😄</h3>
+        <h4>أ / عبدالعزيز الفيفي ✨</h4>
     </div>
 
     <!-- شاشة قفل النظام -->
-    <div id="lock-screen" class="hidden" style="text-align: center; padding: 30px;">
+    <div id="lock-screen" class="hidden" style="text-align: center; padding: 40px;">
         <span class="floating-emoji">🔒</span>
-        <h2 style="color: var(--wrong); margin-top: 10px;">تنبيه النظام</h2>
-        <p id="lock-message" style="font-size: 1.2rem; color: #4a5568; line-height: 1.6;"></p>
+        <h2 style="color: var(--wrong);">تنبيه النظام</h2>
+        <p id="lock-message" style="font-size: 1.3rem; line-height: 1.6; color: #555;"></p>
         <button class="btn" onclick="location.reload()" style="margin-top: 20px;">العودة</button>
     </div>
 
-    <!-- صفحة السؤال والتفاعل -->
+    <!-- شاشة تسجيل الدخول -->
+    <div id="start-page" style="text-align: center;">
+        <span class="floating-emoji">🚀</span>
+        <p style="font-weight: bold; color: var(--main-color);">أدخل إيميل منصة مدرستي لبدء التحدي</p>
+        <input type="email" id="studentEmail" placeholder="sxxxxxxx@rb.moe.gov.sa">
+        <br>
+        <button class="btn" onclick="verifyAndStart()">دخول المنصة 🔥</button>
+        <p id="status-msg" style="margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <!-- شاشة السؤال والتفاعل -->
     <div id="quiz-page" class="hidden">
         <div class="nav-bar">
-            <div id="q-counter" style="font-weight: bold; color: #4a5568;"></div>
-            <div id="challenger-display" style="color: var(--main-color); font-weight: bold;"></div>
-            <div id="timer" style="font-weight: 900; font-size: 1.4rem; color: #e53e3e;">45</div>
+            <div id="q-counter" style="font-weight: bold;"></div>
+            <div id="challenger-display" class="challenger-box"></div>
+            <div id="timer" style="font-weight: 900; font-size: 1.6rem; color: var(--wrong);">45</div>
         </div>
 
-        <!-- الفيس المتحرك المفكر فوق السؤال -->
+        <!-- الفيس المتحرك التفاعلي المعبر -->
         <span id="dynamic-face" class="floating-emoji">🤔</span>
 
-        <div class="badge-container">
-            <span id="q-type-label" class="q-type-badge">قدرات - لفظي</span>
+        <div style="text-align: right; margin-bottom: 12px;">
+            <span id="q-type-label" class="q-type-badge"></span>
         </div>
 
-        <div class="main-title">التناظر اللفظي</div>
-
-        <!-- إطار السؤال البارز -->
+        <!-- إطار السؤال البارز المطابق للنموذج المطلوب -->
         <div class="question-frame">
             <div class="question-header-tag">السؤال</div>
             <div id="question-text" class="q-text"></div>
@@ -264,34 +211,88 @@
 
         <div id="options-area" class="options-grid"></div>
         
-        <div style="text-align: center; margin-top: 30px;">
+        <div style="text-align: center; margin-top: 35px;">
             <button id="next-btn" class="btn hidden" onclick="nextQuestion()">السؤال التالي ⮕</button>
         </div>
     </div>
 
-    <!-- صفحة النتيجة النهائية -->
+    <!-- شاشة النتيجة النهائية -->
     <div id="result-page" class="hidden" style="text-align: center;">
         <span class="floating-emoji">🏆</span>
-        <h2 id="final-greeting" style="color: #2d3748; line-height: 1.6;"></h2>
-        <div style="font-size: 2.5rem; font-weight: bold; margin: 15px 0; color: var(--main-color);" id="score-text"></div>
+        <h2 id="final-greeting"></h2>
+        <div style="font-size: 3rem; font-weight: bold; margin: 15px 0; color: var(--main-color);" id="score-text"></div>
         
-        <div style="text-align: right; font-weight: bold; margin-bottom: 5px; color: #2d3748;">📊 ملخص إجاباتك والتغذية الراجعة:</div>
+        <!-- قسم ملخص الإجابات والتغذية الراجعة -->
+        <div style="text-align: right; font-weight: bold; margin-bottom: 5px; color: #2c3e50;">📊 ملخص إجاباتك وتغذية راجعة:</div>
         <div id="review-list" class="review-container"></div>
 
         <div style="margin-top: 20px;">
-            <button class="btn" onclick="location.reload()">إنهاء وخروج 🌟</button>
+            <button class="btn" onclick="location.reload()">خروج 🌟</button>
         </div>
     </div>
 </div>
 
 <script>
-    const rawQuizData = [
-        { t: "قدرات - لفظي", q: "طواف : كعبة", opts: ["حزام : بطن", "كتاب : حقيبة", "قلم : دفتر", "باب : غرفة"], ans: "حزام : بطن" },
-        { t: "قدرات - لفظي", q: "أسد : زئير", opts: ["حصان : صهيل", "عصفور : غيمة", "قلم : كتاب", "سماء : مطر"], ans: "حصان : صهيل" },
-        { t: "قدرات - لفظي", q: "شمس : ضوء", opts: ["نار : حرارة", "ليل : نهار", "ماء : عطش", "سماء : أرض"], ans: "نار : حرارة" }
+    const themes = [
+        {main: "#800000", bg: "#fdf1f1", pbg: "rgba(128, 0, 0, 0.05)"},
+        {main: "#2c3e50", bg: "#f4f7f6", pbg: "rgba(44, 62, 80, 0.05)"},
+        {main: "#1e3a8a", bg: "#eff6ff", pbg: "rgba(30, 58, 138, 0.05)"},
+        {main: "#065f46", bg: "#ecfdf5", pbg: "rgba(6, 95, 70, 0.05)"},
+        {main: "#b45309", bg: "#fffbeb", pbg: "rgba(180, 83, 9, 0.05)"},
+        {main: "#6d28d9", bg: "#f5f3ff", pbg: "rgba(109, 40, 217, 0.05)"},
+        {main: "#0369a1", bg: "#f0f9ff", pbg: "rgba(3, 105, 161, 0.05)"},
+        {main: "#be185d", bg: "#fff1f2", pbg: "rgba(190, 24, 93, 0.05)"},
+        {main: "#15803d", bg: "#f0fdf4", pbg: "rgba(21, 128, 61, 0.05)"},
+        {main: "#4338ca", bg: "#eef2ff", pbg: "rgba(67, 56, 202, 0.05)"},
+        {main: "#334155", bg: "#f8fafc", pbg: "rgba(51, 65, 85, 0.05)"},
+        {main: "#7c2d12", bg: "#fff7ed", pbg: "rgba(124, 45, 18, 0.05)"},
+        {main: "#1e1b4b", bg: "#fdfdfd", pbg: "rgba(30, 27, 75, 0.03)"}
     ];
 
-    const currentModelId = "التناظر اللفظي - تفاعلي";
+    const theme = themes[Math.floor(Math.random() * themes.length)];
+    document.documentElement.style.setProperty('--main-color', theme.main);
+    document.documentElement.style.setProperty('--bg-color', theme.bg);
+    document.documentElement.style.setProperty('--passage-bg', theme.pbg);
+
+    const rawQuizData = [
+        { t: "استخرج", q: "في جملة (العلمُ نورٌ)، عيّن المبتدأ والخبر:", opts: ["المبتدأ: العلم - الخبر: نور", "المبتدأ: نور - الخبر: العلم", "لا يوجد مبتدأ وخبر", "المبتدأ محذوف"], ans: "المبتدأ: العلم - الخبر: نور" },
+        { t: "استخرج", q: "في جملة (المسلمون متماسكُونَ)، حدد الخبر:", opts: ["المسلمون", "متماسكُونَ", "جملة فعلية", "شبه جملة"], ans: "متماسكُونَ" },
+        { t: "استخرج", q: "في جملة (إنَّ الحقَّ منتصرٌ)، حدد اسم (إن) وخبرها:", opts: ["اسم إن: الحقّ - خبرها: منتصرٌ", "اسم إن: منتصر - خبرها: الحق", "لا توجد أدوات ناسخة", "اسم إن محذوف"], ans: "اسم إن: الحقّ - خبرها: منتصرٌ" },
+        { t: "استخرج", q: "في جملة (الطالبانِ مجتهدانِ)، استخرج المبتدأ وبين علامة إعرابه:", opts: ["الطالبانِ - الألف", "الطالبانِ - الضمة", "مجتهدانِ - الواو", "لا يوجد مبتدأ"], ans: "الطالبانِ - الألف" },
+        { t: "استخرج", q: "في جملة (كان التلميذُ مجتهداً)، استخرج اسم (كان):", opts: ["التلميذُ", "مجتهداً", "كان", "لا يوجد"], ans: "التلميذُ" },
+
+        { t: "إكمال", q: "أمسى الجوُّ ......... (اختر الخبر المناسب):", opts: ["بارداً", "باردٌ", "باردٍ", "باردان"], ans: "بارداً" },
+        { t: "إكمال", q: "لعلَّ المعلمينَ ......... (اختر الخبر المناسب):", opts: ["حاضرون", "حاضرينَ", "حاضران", "حاضر"], ans: "حاضرون" },
+        { t: "إكمال", q: "ظلّ العمالُ ......... في عملهم (اختر الخبر المناسب):", opts: ["مجدينَ", "مجدون", "مجدان", "مجدٍ"], ans: "مجدينَ" },
+        { t: "إكمال", q: "إنَّ الأخلاقَ ......... (اختر الخبر المناسب):", opts: ["فاضلةٌ", "فاضلةً", "فاضلةٍ", "فاضلاتِ"], ans: "فاضلةٌ" },
+        { t: "إكمال", q: "بات المهندسونَ ......... في المشروع (اختر الخبر المناسب):", opts: ["ساهرينَ", "ساهرون", "ساهران", "ساهرينَ"], ans: "ساهرينَ" },
+
+        { t: "صح وخطأ", q: "تدخل (إن وأخواتها) على الجملة الاسمية فترفع المبتدأ ويسمى اسمها، وتنصب الخبر ويسمى خبرها.", opts: ["صحيح", "خطأ"], ans: "خطأ" },
+        { t: "صح وخطأ", q: "تُعدّ (كان وأخواتها) أفعالاً ناسخة تدخل على المبتدأ والخبر فترفع المبتدأ وتنصب الخبر.", opts: ["صحيح", "خطأ"], ans: "صحيح" },
+        { t: "صح وخطأ", q: "تعمل (ليس) عمل (كان) فترفع الاسم وتنصب الخبر.", opts: ["صحيح", "خطأ"], ans: "صحيح" },
+        { t: "صح وخطأ", q: "اسم (إن وأخواتها) يكون منصوباً دائماً.", opts: ["صحيح", "خطأ"], ans: "صحيح" },
+        { t: "صح وخطأ", q: "المبتدأ والخبر مرفوعان دائماً إذا لم يدخل عليهما ناسخ.", opts: ["صحيح", "خطأ"], ans: "صحيح" },
+
+        { t: "أعرب", q: "ما إعراب كلمة (الطالبانِ) في جملة (الطالبانِ مجتهدانِ)؟", opts: ["مبتدأ مرفوع بالألف لأنه مثنى", "مبتدأ مرفوع بالضمة", "فاعل مرفوع بالألف", "خبر مرفوع بالألف"], ans: "مبتدأ مرفوع بالألف لأنه مثنى" },
+        { t: "أعرب", q: "ما إعراب (غَفورٌ) في جملة (إن اللهَ غَفورٌ رحيمٌ)؟", opts: ["خبر إن مرفوع بالضمة الظاهرة", "اسم إن منصوب بالفتحة", "مبتدأ مرفوع", "خبر مرفوع بالألف"], ans: "خبر إن مرفوع بالضمة الظاهرة" },
+        { t: "أعرب", q: "في جملة (ليتَ الصديقينِ مخلصانِ)، ما إعراب (الصديقينِ)؟", opts: ["اسم ليت منصوب بالياء لأنه مثنى", "مبتدأ مرفوع بالألف", "خبر ليت مرفوع بالألف", "فاعل منصوب بالياء"], ans: "اسم ليت منصوب بالياء لأنه مثنى" },
+        { t: "أعرب", q: "ما علامة إعراب المبتدأ في جملة (الطالباتُ مخلصاتٌ)؟", opts: ["الضمة الظاهرة لأنه جمع مؤنث سالم", "الكسرة لأنه جمع مؤنث سالم", "الفضة", "الفتحة المقدرة"], ans: "الضمة الظاهرة لأنه جمع مؤنث سالم" },
+        { t: "أعرب", q: "ما علامة رفع المبتدأ في جملة (أبوكَ رجلٌ فاضلٌ)؟", opts: ["الواو لأنه من الأسماء الخمسة", "الضمة الظاهرة", "الألف", "الفتحة"], ans: "الواو لأنه من الأسماء الخمسة" },
+
+        { t: "صحح", q: "صحح الخطأ في الجملة التالية: (كان الأزهارُ مزهراً)", opts: ["كان الأزهارُ مزهراً", "كانت الأزهارُ مزهرةً", "كان الأزهارُ مزهرين", "صحيحة لا تحتاج تصحيح"], ans: "كانت الأزهارُ مزهرةً" },
+        { t: "صحح", q: "صحح الخطأ النحوي: (إن المهندسينَ مجتهدون)", opts: ["إن المهندسونَ مجتهدون", "إن المهندسينَ مجتهدينَ", "إن المهندسونَ مجتهدينَ", "صحيحة لا تحتاج تصحيح"], ans: "إن المهندسينَ مجتهدينَ" },
+        { t: "صحح", q: "الصواب النحوي لجملة (بات العاملون نشيطون) هو:", opts: ["بات العاملون نشيطينَ", "بات العاملين نشيطون", "بات العاملين نشيطينَ", "باتت العاملات نشيطون"], ans: "بات العاملون نشيطينَ" },
+        { t: "صحح", q: "صحح الخطأ: (لعل الأخوينِ مخلصون)", opts: ["لعل الأخوينِ مخلصينَ", "لعل الأخوانِ مخلصون", "لعل الأخوينِ مخلصانِ", "صحيحة تماماً"], ans: "لعل الأخوينِ مخلصينَ" },
+        { t: "صحح", q: "صحح الخطأ: (أصبح المعلمون مخلصينَ)", opts: ["صحيحة لا تحتاج تصحيح", "أصبح المعلمون مخلصون", "أصبح المعلمين مخلصين", "أصبحت المعلمون مخلصين"], ans: "صحيحة لا تحتاج تصحيح" },
+
+        { t: "مثل", q: "أي الجمل التالية تمثل جملة اسمية دخلت عليها إحدى أخوات كان وتوافر فيها جمع مؤنث سالم؟", opts: ["صارت الفتياتُ مهذباتٍ", "إن الفتياتِ مهذباتٌ", "كان العاملان نشيطين", "أصبح الأبوان حاضرين"], ans: "صارت الفتياتُ مهذباتٍ" },
+        { t: "مثل", q: "اختر الجملة التي تمثل استخداماً صحيحاً لأحد الأسماء الخمسة اسماً لـ (إن):", opts: ["إنَّ أخاكَ صادقٌ", "إنَّ أخوكَ صادقٌ", "كان أخاك صادقاً", "ما زال أخيك صادقاً"], ans: "إنَّ أخاكَ صادقٌ" },
+        { t: "مثل", q: "اختر الجملة التي تمثل مبتدأ مرفوعاً بالواو (جمع مذكر سالم):", opts: ["المعلمون مجتهدون", "المعلمون مجتهدين", "المعلمينا مجتهدون", "المعلمَ مجتهدٌ"], ans: "المعلمون مجتهدون" },
+        { t: "مثل", q: "أي الجمل التالية تمثل دخول (إنّ) على جملة اسمية, وخبرها جملة مفردة مثنى؟", opts: ["إن الطالبينِ مجتهدانِ", "إن الطالبينِ مجتهدينَ", "إن الطالبانِ مجتهدانِ", "كان الطالبانِ مجتهدانِ"], ans: "إن الطالبينِ مجتهدانِ" },
+        { t: "مثل", q: "اختر الجملة التي تمثل استخداماً صحيحاً لـ (أبوك) مع إحدى أخوات كان:", opts: ["كان أبوكَ فاضلاً", "كان أبيكَ فاضلاً", "أصبح أبوكَ فاضلاً", "الجملة الأولى والثالثة صحيحتان"], ans: "الجملة الأولى والثالثة صحيحتان" }
+    ];
+
+    const currentModelId = "الجملة الاسمية";
     let sName, sEmail, currentIdx = 0, userScore = 0, timer, finalQuestions;
     let studentAnswersLog = [];
 
@@ -301,27 +302,36 @@
 
     async function verifyAndStart() {
         const emailInput = document.getElementById('studentEmail').value.trim().toLowerCase();
-        if(!emailInput.includes('@')) return alert("يرجى إدخال إيميل منصة مدرستي الصحيح");
+        if(!emailInput.includes('@')) return alert("يرجى إدخال إيميل منصة مدرستي");
         
-        document.getElementById('status-msg').innerText = "جاري التحقق عبر المنصة... ⏳";
+        document.getElementById('status-msg').innerText = "جاري التحقق... ⏳";
 
         try {
             const allowedDoc = await db.collection("allowed_students").doc(emailInput).get();
             if (!allowedDoc.exists) {
-                showLock("هذا الإيميل غير مسجل في قائمة الطلاب المعتمدين.");
+                showLock("هذا الإيميل غير مسجل. يرجى مراجعة المعلم.");
                 return;
             }
 
             sName = allowedDoc.data().name;
             sEmail = emailInput;
 
-            document.getElementById('challenger-display').innerText = `المتحدي: ${sName} 🎯`;
+            const resultCheck = await db.collection("alkfaeat_results")
+                .where("email", "==", sEmail)
+                .where("model_id", "==", currentModelId).get();
+
+            if (!resultCheck.empty) {
+                showLock(`عذراً يا ${sName}، لقد أديت هذا التحدي مسبقاً.`);
+                return;
+            }
+
+            document.getElementById('challenger-display').innerText = `المتحدي: ${sName}`;
             finalQuestions = [...rawQuizData].sort(() => Math.random() - 0.5);
             studentAnswersLog = [];
             document.getElementById('start-page').classList.add('hidden');
             document.getElementById('quiz-page').classList.remove('hidden');
             loadQuestion();
-        } catch (e) { alert("خطأ في الاتصال بقاعدة البيانات."); }
+        } catch (e) { alert("خطأ في الاتصال بالسيرفر."); }
     }
 
     function showLock(msg) {
@@ -334,9 +344,9 @@
         if(currentIdx >= finalQuestions.length) return finish();
         const data = finalQuestions[currentIdx];
         
-        // إعادة تعيين الفيس إلى وضع التفكير عند كل سؤال جديد
+        // إعادة تعيين الفيس لوضع التفكير مع كل سؤال جديد
         document.getElementById('dynamic-face').innerText = "🤔";
-        
+
         document.getElementById('q-counter').innerText = `سؤال ${currentIdx+1} من ${finalQuestions.length}`;
         document.getElementById('q-type-label').innerText = data.t;
         document.getElementById('question-text').innerHTML = data.q;
@@ -350,66 +360,9 @@
                 const isCorrect = (o === data.ans);
                 if(isCorrect) {
                     userScore++;
-                    document.getElementById('dynamic-face').innerText = "🥳🎉"; // تغيير الفيس للاحتفال عند الإجابة الصحيحة
+                    document.getElementById('dynamic-face').innerText = "🥳🎉"; // فيس الاحتفال عند الإجابة الصحيحة
                 } else {
-                    document.getElementById('dynamic-face').innerText = "🥺❌"; // تغيير الفيس عند الخطأ
+                    document.getElementById('dynamic-face').innerText = "🥺❌"; // فيس حزين عند الخطأ
                 }
                 
-                studentAnswersLog.push({ qText: data.q, studentAns: o, correctAns: data.ans, isCorrect: isCorrect });
-
-                document.querySelectorAll('.opt').forEach(el => {
-                    el.onclick = null;
-                    if(el.innerText === data.ans) el.classList.add('correct');
-                    else if(el.innerText === o) el.classList.add('wrong');
-                });
-                document.getElementById('next-btn').classList.remove('hidden');
-            };
-            box.appendChild(d);
-        });
-        startTimer();
-    }
-
-    function startTimer() {
-        let s = 45; document.getElementById('timer').innerText = s;
-        clearInterval(timer);
-        timer = setInterval(() => {
-            s--; document.getElementById('timer').innerText = s;
-            if(s<=0) { 
-                clearInterval(timer); 
-                document.getElementById('dynamic-face').innerText = "⏰😢";
-                studentAnswersLog.push({ qText: finalQuestions[currentIdx].q, studentAns: "انتهى الوقت ⏰", correctAns: finalQuestions[currentIdx].ans, isCorrect: false });
-                nextQuestion(); 
-            }
-        }, 1000);
-    }
-
-    function nextQuestion() { currentIdx++; loadQuestion(); }
-
-    async function finish() {
-        document.getElementById('quiz-page').classList.add('hidden');
-        document.getElementById('result-page').classList.remove('hidden');
-        document.getElementById('final-greeting').innerHTML = `عمل رائع ومميز يا (${sName})! 🌟 استمر في التميز والعطاء ✨<br> ثانوية الأمير عبدالمجيد 🎓`;
-        document.getElementById('score-text').innerText = `النتيجة النهائية: ${userScore} / ${finalQuestions.length} 🏆`;
-        
-        const reviewListContainer = document.getElementById('review-list');
-        reviewListContainer.innerHTML = '';
-
-        studentAnswersLog.forEach((item, index) => {
-            const reviewItem = document.createElement('div');
-            reviewItem.className = `review-item ${item.isCorrect ? 'correct-ans' : 'wrong-ans'}`;
-            reviewItem.innerHTML = `
-                <div style="font-weight:bold; color:#2d3748; margin-bottom:4px;">س ${index + 1}: ${item.qText}</div>
-                <div style="font-size:0.95rem;">إجابتك: <strong>${item.studentAns}</strong> ${item.isCorrect ? '😄🎉' : '🥺❌'}</div>
-                ${!item.isCorrect ? `<div style="margin-top:3px; color:#e53e3e;">الإجابة الصحيحة: <strong>${item.correctAns}</strong></div>` : ''}
-            `;
-            reviewListContainer.appendChild(reviewItem);
-        });
-        
-        await db.collection("alkfaeat_results").add({ 
-            name: sName, email: sEmail, score: userScore, total: finalQuestions.length, 
-            model_id: currentModelId, answers: studentAnswersLog, time: firebase.firestore.FieldValue.serverTimestamp() 
-        });
-    }
-</script>
-</body>
-</html>
+                studentAnswersLog.pu
