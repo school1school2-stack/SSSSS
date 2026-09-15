@@ -16,10 +16,16 @@
             --passage-bg: rgba(0,0,0,0.03);
         }
 
-        /* حركات إبداعية ونبض جمالي للفيس */
+        /* حركات إبداعية ونبض جمالي للفيس والأوراق المتطايرة */
         @keyframes floatFace {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-8px) rotate(3deg); }
+        }
+
+        @keyframes confettiPop {
+            0% { transform: scale(0.8) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(15deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
         @keyframes pulseGlow {
@@ -61,13 +67,17 @@
             padding-bottom: 15px; 
         }
 
-        /* الفيس المتحرك التفاعلي أعلى السؤال */
+        /* الفيس المتحرك التفاعلي والأوراق المتطايرة أعلى السؤال */
         .floating-emoji {
             font-size: 3.5rem;
             text-align: center;
             margin-bottom: 5px;
             animation: floatFace 2.5s infinite ease-in-out;
             display: block;
+        }
+
+        .confetti-active {
+            animation: confettiPop 0.5s ease-out forwards !important;
         }
 
         .nav-bar { 
@@ -196,7 +206,7 @@
             <div id="timer" style="font-weight: 900; font-size: 1.6rem; color: var(--wrong);">45</div>
         </div>
 
-        <!-- الفيس المتحرك التفاعلي المعبر -->
+        <!-- الفيس المتحرك والأوراق المتطايرة عند الإجابة الصحيحة -->
         <span id="dynamic-face" class="floating-emoji">🤔</span>
 
         <div style="text-align: right; margin-bottom: 12px;">
@@ -218,7 +228,7 @@
 
     <!-- شاشة النتيجة النهائية -->
     <div id="result-page" class="hidden" style="text-align: center;">
-        <span class="floating-emoji">🏆</span>
+        <span class="floating-emoji confetti-active">🏆🎊</span>
         <h2 id="final-greeting"></h2>
         <div style="font-size: 3rem; font-weight: bold; margin: 15px 0; color: var(--main-color);" id="score-text"></div>
         
@@ -254,7 +264,7 @@
     document.documentElement.style.setProperty('--bg-color', theme.bg);
     document.documentElement.style.setProperty('--passage-bg', theme.pbg);
 
-    // مصفوفة الأسئلة الكاملة الخاصة بك
+    // مصفوفة الأسئلة الكاملة الخاصة بك[cite: 5]
     const rawQuizData = [
         { t: "استخرج", q: "في جملة (العلمُ نورٌ)، عيّن المبتدأ والخبر:", opts: ["المبتدأ: العلم - الخبر: نور", "المبتدأ: نور - الخبر: العلم", "لا يوجد مبتدأ وخبر", "المبتدأ محذوف"], ans: "المبتدأ: العلم - الخبر: نور" },
         { t: "استخرج", q: "في جملة (المسلمون متماسكُونَ)، حدد الخبر:", opts: ["المسلمون", "متماسكُونَ", "جملة فعلية", "شبه جملة"], ans: "متماسكُونَ" },
@@ -345,8 +355,10 @@
         if(currentIdx >= finalQuestions.length) return finish();
         const data = finalQuestions[currentIdx];
         
-        // إعادة تعيين الفيس لوضع التفكير مع كل سؤال جديد
-        document.getElementById('dynamic-face').innerText = "🤔";
+        // إعادة تعيين الفيس لوضع التفكير وإزالة تأثير الأوراق
+        const faceEl = document.getElementById('dynamic-face');
+        faceEl.innerText = "🤔";
+        faceEl.classList.remove('confetti-active');
 
         document.getElementById('q-counter').innerText = `سؤال ${currentIdx+1} من ${finalQuestions.length}`;
         document.getElementById('q-type-label').innerText = data.t;
@@ -361,9 +373,11 @@
                 const isCorrect = (o === data.ans);
                 if(isCorrect) {
                     userScore++;
-                    document.getElementById('dynamic-face').innerText = "🥳🎉"; // فيس الاحتفال عند الإجابة الصحيحة
+                    // فيس الفرح مع أوراق متطايرة وألعاب نارية 🎉🎊✨
+                    faceEl.innerText = "🥳🎉🎊✨";
+                    faceEl.classList.add('confetti-active');
                 } else {
-                    document.getElementById('dynamic-face').innerText = "🥺❌"; // فيس حزين عند الخطأ
+                    faceEl.innerText = "🥺❌"; // فيس حزين عند الخطأ
                 }
                 
                 studentAnswersLog.push({
