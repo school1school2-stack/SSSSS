@@ -366,4 +366,85 @@
                     document.getElementById('dynamic-face').innerText = "🥺❌"; // فيس حزين عند الخطأ
                 }
                 
- 
+                studentAnswersLog.push({
+                    qText: data.q,
+                    studentAns: o,
+                    correctAns: data.ans,
+                    isCorrect: isCorrect
+                });
+
+                document.querySelectorAll('.opt').forEach(el => {
+                    el.onclick = null;
+                    if(el.innerText === data.ans) el.classList.add('correct');
+                    else if(el.innerText === o) el.classList.add('wrong');
+                });
+                document.getElementById('next-btn').classList.remove('hidden');
+            };
+            box.appendChild(d);
+        });
+        startTimer();
+    }
+
+    function startTimer() {
+        let s = 45; document.getElementById('timer').innerText = s;
+        clearInterval(timer);
+        timer = setInterval(() => {
+            s--; document.getElementById('timer').innerText = s;
+            if(s<=0) { 
+                clearInterval(timer); 
+                document.getElementById('dynamic-face').innerText = "⏰😢";
+                studentAnswersLog.push({
+                    qText: finalQuestions[currentIdx].q,
+                    studentAns: "انتهى الوقت (بدون إجابة)",
+                    correctAns: finalQuestions[currentIdx].ans,
+                    isCorrect: false
+                });
+                nextQuestion(); 
+            }
+        }, 1000);
+    }
+
+    function nextQuestion() { currentIdx++; loadQuestion(); }
+
+    async function finish() {
+        document.getElementById('quiz-page').classList.add('hidden');
+        document.getElementById('result-page').classList.remove('hidden');
+        document.getElementById('final-greeting').innerHTML = `جهدك اليوم محل تقدير، وبإصرار وعزيمة ستصل لمستوى أعلى في المرة المقبلة <br> يا (${sName}) 💐💐 ثانوية الأمير عبدالمجيد 👨‍🎓`;
+
+        document.getElementById('score-text').innerText = `النتيجة النهائية: ${userScore} / ${finalQuestions.length}`;
+        
+        // توليد وتعبئة قائمة المراجعة والتغذية الراجعة
+        const reviewListContainer = document.getElementById('review-list');
+        reviewListContainer.innerHTML = '';
+
+        studentAnswersLog.forEach((item, index) => {
+            const reviewItem = document.createElement('div');
+            reviewItem.className = `review-item ${item.isCorrect ? 'correct-ans' : 'wrong-ans'}`;
+            
+            let feedbackText = item.isCorrect 
+                ? "✅ أحسنت! إجابتك صحيحة وموفقة." 
+                : `❌ إجابتك خاطئة. الإجابة الصحيحة هي: (${item.correctAns})`;
+
+            reviewItem.innerHTML = `
+                <div class="review-q">السؤال ${index + 1}: ${item.qText}</div>
+                <div class="review-details">
+                    <div>إجابتك: <strong>${item.studentAns}</strong></div>
+                    <div style="margin-top: 5px; color: ${item.isCorrect ? '#27ae60' : '#e74c3c'};"><strong>التغذية الراجعة:</strong> ${feedbackText}</div>
+                </div>
+            `;
+            reviewListContainer.appendChild(reviewItem);
+        });
+        
+        await db.collection("alkfaeat_results").add({ 
+            name: sName, 
+            email: sEmail, 
+            score: userScore, 
+            total: finalQuestions.length, 
+            model_id: currentModelId, 
+            answers: studentAnswersLog,
+            time: firebase.firestore.FieldValue.serverTimestamp() 
+        });
+    }
+</script>
+</body>
+</html>
