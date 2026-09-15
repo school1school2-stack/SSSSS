@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاكي الاختبارات - ثانوية الأمير عبدالمجيد مع فيس تعبيري 😄</title>
+    <title>محاكي الاختبارات - ثانوية الأمير عبدالمجيد 🎓 ثانوية الأمير عبدالمجيد مع فيس تعبيري 😄</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <style>
@@ -16,15 +16,20 @@
             --passage-bg: rgba(0,0,0,0.03);
         }
 
-        /* حركات إبداعية ونبض جمالي للفيس والأوراق المتطايرة */
+        /* حركات إبداعية ونبض جمالي للعبارة والأوراق المتطايرة */
         @keyframes floatFace {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(3deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(39, 174, 96, 0.5)); }
         }
 
         @keyframes confettiPop {
             0% { transform: scale(0.8) rotate(0deg); opacity: 0; }
-            50% { transform: scale(1.2) rotate(15deg); opacity: 1; }
+            50% { transform: scale(1.15) rotate(10deg); opacity: 1; }
             100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
@@ -67,17 +72,20 @@
             padding-bottom: 15px; 
         }
 
-        /* الفيس المتحرك التفاعلي والأوراق المتطايرة أعلى السؤال */
+        /* عبارة التفاعل المتحركة أعلى السؤال */
         .floating-emoji {
-            font-size: 3.5rem;
+            font-size: 2rem;
+            font-weight: 900;
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             animation: floatFace 2.5s infinite ease-in-out;
             display: block;
+            color: var(--main-color);
         }
 
         .confetti-active {
-            animation: confettiPop 0.5s ease-out forwards !important;
+            animation: confettiPop 0.5s ease-out forwards, pulseText 1s infinite alternate !important;
+            color: #27ae60 !important;
         }
 
         .nav-bar { 
@@ -182,15 +190,15 @@
 
     <!-- شاشة قفل النظام -->
     <div id="lock-screen" class="hidden" style="text-align: center; padding: 40px;">
-        <span class="floating-emoji">🔒</span>
-        <h2 style="color: var(--wrong);">تنبيه النظام</h2>
+        <span class="floating-emoji">🔒 تنبيه النظام</span>
+        <h2 style="color: var(--wrong);">قفل الأمان</h2>
         <p id="lock-message" style="font-size: 1.3rem; line-height: 1.6; color: #555;"></p>
         <button class="btn" onclick="location.reload()" style="margin-top: 20px;">العودة</button>
     </div>
 
     <!-- شاشة تسجيل الدخول -->
     <div id="start-page" style="text-align: center;">
-        <span class="floating-emoji">🚀</span>
+        <span class="floating-emoji">🚀 انطلق نحو التميز</span>
         <p style="font-weight: bold; color: var(--main-color);">أدخل إيميل منصة مدرستي لبدء التحدي</p>
         <input type="email" id="studentEmail" placeholder="sxxxxxxx@rb.moe.gov.sa">
         <br>
@@ -206,8 +214,8 @@
             <div id="timer" style="font-weight: 900; font-size: 1.6rem; color: var(--wrong);">45</div>
         </div>
 
-        <!-- الفيس المتحرك والأوراق المتطايرة عند الإجابة الصحيحة -->
-        <span id="dynamic-face" class="floating-emoji">🤔</span>
+        <!-- عبارة التفاعل المتحركة والنابضة بالحياة -->
+        <span id="dynamic-face" class="floating-emoji">🤔 ركّز وفكّر في الإجابة...</span>
 
         <div style="text-align: right; margin-bottom: 12px;">
             <span id="q-type-label" class="q-type-badge"></span>
@@ -228,7 +236,7 @@
 
     <!-- شاشة النتيجة النهائية -->
     <div id="result-page" class="hidden" style="text-align: center;">
-        <span class="floating-emoji confetti-active">🏆🎊</span>
+        <span class="floating-emoji confetti-active">🎉 أحسنت مبدع كالعادة 🎊</span>
         <h2 id="final-greeting"></h2>
         <div style="font-size: 3rem; font-weight: bold; margin: 15px 0; color: var(--main-color);" id="score-text"></div>
         
@@ -355,9 +363,9 @@
         if(currentIdx >= finalQuestions.length) return finish();
         const data = finalQuestions[currentIdx];
         
-        // إعادة تعيين الفيس لوضع التفكير وإزالة تأثير الأوراق
+        // إعادة تعيين العبارة لوضع التركيز وإزالة تأثير الأوراق
         const faceEl = document.getElementById('dynamic-face');
-        faceEl.innerText = "🤔";
+        faceEl.innerText = "🤔 ركّز وفكّر في الإجابة...";
         faceEl.classList.remove('confetti-active');
 
         document.getElementById('q-counter').innerText = `سؤال ${currentIdx+1} من ${finalQuestions.length}`;
@@ -373,11 +381,11 @@
                 const isCorrect = (o === data.ans);
                 if(isCorrect) {
                     userScore++;
-                    // فيس الفرح مع أوراق متطايرة وألعاب نارية 🎉🎊✨
-                    faceEl.innerText = "🥳🎉🎊✨";
+                    // عبارة الفرح النابضة مع أوراق متطايرة وألعاب نارية 🎉🎊✨
+                    faceEl.innerText = "🎉 أحسنت مبدع كالعادة 🎊✨";
                     faceEl.classList.add('confetti-active');
                 } else {
-                    faceEl.innerText = "🥺❌"; // فيس حزين عند الخطأ
+                    faceEl.innerText = "❌ إجابة خاطئة، حاول في المرة القادمة"; // عبارة عند الخطأ
                 }
                 
                 studentAnswersLog.push({
@@ -406,7 +414,7 @@
             s--; document.getElementById('timer').innerText = s;
             if(s<=0) { 
                 clearInterval(timer); 
-                document.getElementById('dynamic-face').innerText = "⏰😢";
+                document.getElementById('dynamic-face').innerText = "⏰ انتهى الوقت!";
                 studentAnswersLog.push({
                     qText: finalQuestions[currentIdx].q,
                     studentAns: "انتهى الوقت (بدون إجابة)",
